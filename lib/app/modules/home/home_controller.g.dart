@@ -9,30 +9,30 @@ part of 'home_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$HomeController on _HomeBase, Store {
-  final _$valueAtom = Atom(name: '_HomeBase.value');
+  final _$tabIndexAtom = Atom(name: '_HomeBase.tabIndex');
 
   @override
-  int get value {
-    _$valueAtom.context.enforceReadPolicy(_$valueAtom);
-    _$valueAtom.reportObserved();
-    return super.value;
+  int get tabIndex {
+    _$tabIndexAtom.context.enforceReadPolicy(_$tabIndexAtom);
+    _$tabIndexAtom.reportObserved();
+    return super.tabIndex;
   }
 
   @override
-  set value(int value) {
-    _$valueAtom.context.conditionallyRunInAction(() {
-      super.value = value;
-      _$valueAtom.reportChanged();
-    }, _$valueAtom, name: '${_$valueAtom.name}_set');
+  set tabIndex(int value) {
+    _$tabIndexAtom.context.conditionallyRunInAction(() {
+      super.tabIndex = value;
+      _$tabIndexAtom.reportChanged();
+    }, _$tabIndexAtom, name: '${_$tabIndexAtom.name}_set');
   }
 
   final _$_HomeBaseActionController = ActionController(name: '_HomeBase');
 
   @override
-  void increment() {
+  void changeIndex(int index) {
     final _$actionInfo = _$_HomeBaseActionController.startAction();
     try {
-      return super.increment();
+      return super.changeIndex(index);
     } finally {
       _$_HomeBaseActionController.endAction(_$actionInfo);
     }
