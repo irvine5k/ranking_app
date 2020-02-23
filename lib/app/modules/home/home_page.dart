@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:mobx/mobx.dart';
 import 'package:ranking_challenge/app/modules/home/home_controller.dart';
+import 'package:ranking_challenge/app/shared/widgets/name_initials_widget.dart';
+
+import '../../app_controller.dart';
+import 'position_model.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage() : super();
@@ -60,9 +65,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                       : position == 2 ? Color(0xff0CFAC8) : Colors.white,
                   size: position == 1 ? 35 : 30,
                 ),
-          SizedBox(
-            height: 10,
-          ),
+          SizedBox(height: 10),
           Container(
             decoration: position == 1
                 ? BoxDecoration(
@@ -81,9 +84,8 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
               backgroundColor: Color(0xff0CFAC8),
               child: CircleAvatar(
                 radius: position == 1 ? 57 : 47,
-                backgroundColor: Theme.of(context).backgroundColor,
-                backgroundImage: NetworkImage(
-                    'https://pbs.twimg.com/media/DaUamWNX0AAxLKy.jpg'),
+                backgroundColor: Colors.white,
+                child: NameInitialsWidget(text: name),
               ),
             ),
           ),
@@ -109,7 +111,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
   Widget buildRankingTile(
     int index,
     BuildContext context,
-    Person person,
+    PositionModel person,
   ) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -128,12 +130,8 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                   ),
                 ),
                 Icon(
-                  person.lastPosition < index
-                      ? Icons.arrow_drop_up
-                      : Icons.arrow_drop_down,
-                  color: person.lastPosition < index
-                      ? Color(0xff0CFAC8)
-                      : Colors.white,
+                  person.up ? Icons.arrow_drop_up : Icons.arrow_drop_down,
+                  color: person.up ? Color(0xff0CFAC8) : Colors.white,
                   size: 25,
                 ),
               ],
@@ -174,11 +172,10 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                   ),
                 ),
                 Positioned(
-                  child: CircleAvatar(
-                    radius: 25,
-                    backgroundImage: NetworkImage(
-                      'https://pbs.twimg.com/media/DaUamWNX0AAxLKy.jpg',
-                    ),
+                  child: NameInitialsWidget(
+                    text: person.name,
+                    margin: 0,
+                    size: 55,
                   ),
                 )
               ],
@@ -198,7 +195,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
         title: Text('Leaderboard'),
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.white),
-          onPressed: () {},
+          onPressed: () => controller.logout(context),
         ),
       ),
       body: AnimatedBuilder(
@@ -213,9 +210,10 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                   Colors.transparent,
                   Colors.transparent,
                   Colors.transparent,
-                  (scrollController.offset < 50)
-                      ? Color(0xff002619)
-                      : Colors.transparent,
+                  Color(0xff002619),
+                  // (scrollController.offset < 50)
+                  //     ? Color(0xff002619)
+                  //     : Colors.transparent,
                 ],
               ).createShader(bounds);
             },
@@ -242,7 +240,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
               builder: (context) => Expanded(
                 child: ListView.builder(
                   controller: scrollController,
-                  itemCount: controller.persons.length,
+                  itemCount: controller.persons?.length ?? 0,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     if (index == 0) {
@@ -252,12 +250,12 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                       );
                     }
 
-                    if (index < 4) {
+                    if (index < 3) {
                       return Container();
                     }
 
                     return buildRankingTile(
-                      index,
+                      index + 1,
                       context,
                       controller.persons[index],
                     );
@@ -271,7 +269,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
     );
   }
 
-  Widget buildTopThree(BuildContext context, List<Person> topThree) {
+  Widget buildTopThree(BuildContext context, List<PositionModel> topThree) {
     return Container(
       padding: EdgeInsets.only(top: 10, bottom: 40),
       child: Stack(

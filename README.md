@@ -1,6 +1,9 @@
 # ranking_challenge
 
-A new Flutter project.
+## O que falta:
+ - Cronômetro
+ - Animação da lista
+ - Tela de perfil
 
 ## Getting Started
 
