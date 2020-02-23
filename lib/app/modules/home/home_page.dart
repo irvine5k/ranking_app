@@ -11,8 +11,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends ModularState<HomePage, HomeController> {
-  Widget _buildChip(String label, int index) =>
-      ChoiceChip(
+  final scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    scrollController.dispose();
+  }
+
+  Widget _buildChip(String label, int index) => ChoiceChip(
         label: Text(
           label,
           style: TextStyle(color: Colors.white),
@@ -81,9 +88,13 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
             ),
           ),
           const SizedBox(height: 15),
-          Text(
-            name,
-            style: TextStyle(color: Colors.white),
+          SizedBox(
+            width: 70,
+            child: Text(
+              name,
+              style: TextStyle(color: Colors.white),
+              textAlign: TextAlign.center,
+            ),
           ),
           const SizedBox(height: 5),
           Text(
@@ -101,74 +112,79 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
     Person person,
   ) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         // crossAxisAlignment: Cros,
         children: <Widget>[
-          Column(
-            children: <Widget>[
-              Text(
-                '$index',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-              Icon(
-                person.lastPosition < index
-                    ? Icons.arrow_drop_up
-                    : Icons.arrow_drop_down,
-                color: person.lastPosition < index
-                    ? Color(0xff0CFAC8)
-                    : Colors.white,
-                size: 25,
-              ),
-            ],
-          ),
-          Stack(
-            alignment: Alignment.centerLeft,
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.only(left: 60, right: 20),
-                width: MediaQuery.of(context).size.width * .7,
-                height: 45,
-                decoration: BoxDecoration(
-                  color: Color(0xff4E7A6D),
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Expanded(
-                      child: Text(
-                        person.name,
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    SizedBox(width: 10),
-                    Text(
-                      '${person.points}',
-                      style: TextStyle(
-                        color: Color(0xff0CFAC8),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Positioned(
-                child: CircleAvatar(
-                  radius: 25,
-                  backgroundImage: NetworkImage(
-                    'https://pbs.twimg.com/media/DaUamWNX0AAxLKy.jpg',
+          Container(
+            padding: EdgeInsets.only(right: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  '$index',
+                  style: TextStyle(
+                    color: Colors.white,
                   ),
                 ),
-              )
-            ],
-          )
+                Icon(
+                  person.lastPosition < index
+                      ? Icons.arrow_drop_up
+                      : Icons.arrow_drop_down,
+                  color: person.lastPosition < index
+                      ? Color(0xff0CFAC8)
+                      : Colors.white,
+                  size: 25,
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Stack(
+              alignment: Alignment.centerLeft,
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.only(left: 60, right: 20),
+                  height: 45,
+                  decoration: BoxDecoration(
+                    color: Color(0xff4E7A6D),
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Expanded(
+                        child: Text(
+                          person.name,
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      Text(
+                        '${person.points}',
+                        style: TextStyle(
+                          color: Color(0xff0CFAC8),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Positioned(
+                  child: CircleAvatar(
+                    radius: 25,
+                    backgroundImage: NetworkImage(
+                      'https://pbs.twimg.com/media/DaUamWNX0AAxLKy.jpg',
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -186,20 +202,28 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
           onPressed: () {},
         ),
       ),
-      body: ShaderMask(
-        shaderCallback: (Rect bounds) {
-          return LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: <Color>[
-              Colors.transparent,
-              Colors.transparent,
-              Colors.transparent,
-              Color(0xff002619),
-            ],
-          ).createShader(bounds);
+      body: AnimatedBuilder(
+        animation: scrollController,
+        builder: (context, child) {
+          return ShaderMask(
+            shaderCallback: (Rect bounds) {
+              return LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: <Color>[
+                  Colors.transparent,
+                  Colors.transparent,
+                  Colors.transparent,
+                  (scrollController.offset < 50)
+                      ? Color(0xff002619)
+                      : Colors.transparent,
+                ],
+              ).createShader(bounds);
+            },
+            blendMode: BlendMode.dstOut,
+            child: child,
+          );
         },
-        blendMode: BlendMode.dstOut,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
@@ -218,6 +242,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
             Observer(
               builder: (context) => Expanded(
                 child: ListView.builder(
+                  controller: scrollController,
                   itemCount: controller.persons.length,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
@@ -247,34 +272,31 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
     );
   }
 
-  Container buildTopThree(BuildContext context, List<Person> topThree) {
+  Widget buildTopThree(BuildContext context, List<Person> topThree) {
     return Container(
-      height: MediaQuery.of(context).size.height * .6,
+      padding: EdgeInsets.only(top: 10, bottom: 40),
       child: Stack(
         alignment: Alignment.center,
         children: <Widget>[
-          Positioned(
-            right: 35,
+          Container(
+            margin: EdgeInsets.only(left: 170, top: 70),
             child: _buildCircleAvatar(
               position: 2,
               name: topThree[1].name,
               points: topThree[1].points,
             ),
           ),
-          Positioned(
-            left: 35,
+          Container(
+            margin: EdgeInsets.only(right: 170, top: 70),
             child: _buildCircleAvatar(
               position: 3,
               name: topThree[2].name,
               points: topThree[2].points,
             ),
           ),
-          Positioned(
-            top: 10,
-            child: _buildCircleAvatar(
-              name: topThree[0].name,
-              points: topThree[0].points,
-            ),
+          _buildCircleAvatar(
+            name: topThree[0].name,
+            points: topThree[0].points,
           ),
         ],
       ),
