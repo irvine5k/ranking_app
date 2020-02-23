@@ -10,8 +10,8 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
-  Widget _buildChip(String label, int index, HomeController controller) =>
+class _HomePageState extends ModularState<HomePage, HomeController> {
+  Widget _buildChip(String label, int index) =>
       ChoiceChip(
         label: Text(
           label,
@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> {
           ),
           position == 1
               ? Image.network(
-                  'https://meet.google.com/linkredirect?authuser=1&dest=https%3A%2F%2Flh3.googleusercontent.com%2Fproxy%2F_PjfCXLXySnp-3Op6HlolM3aZq3lQ3ta8bZqLGIjT8qFaM5TpZ4LoUyhAB5t9EDJCkkVi_HSjKwtx8yYCCh5Vp9gHFjc8KypmuklT_0w8fGrZI8rXDDejLkM1dXFJTDgm8Q8hKWS8NG9yJUht9ALSBuVoDgiLQ',
+                  'https://pngimg.com/uploads/crown/crown_PNG18.png',
                   height: 40,
                   width: 50,
                 )
@@ -176,8 +176,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    HomeController controller = Modular.get();
-
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
@@ -210,9 +208,9 @@ class _HomePageState extends State<HomePage> {
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    _buildChip('Today', 0, controller),
-                    _buildChip('Week', 1, controller),
-                    _buildChip('Month', 2, controller),
+                    _buildChip('Today', 0),
+                    _buildChip('Week', 1),
+                    _buildChip('Month', 2),
                   ],
                 );
               },
