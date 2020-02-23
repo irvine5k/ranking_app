@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "687015622817",
+    "firebase_url": "https://ranking-flutterando.firebaseio.com",
+    "project_id": "ranking-flutterando",
+    "storage_bucket": "ranking-flutterando.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:687015622817:android:1fc8e7f8c1076a10e318e0",
+        "android_client_info": {
+          "package_name": "com.irvine5k.ranking_challenge"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "687015622817-c0ds2eet46dnrerb1jdl1n9749gog6fu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.irvine5k.ranking_challenge",
+            "certificate_hash": "5f9c09d2833f4103b47b2eafc30a218a34240bef"
+          }
+        },
+        {
+          "client_id": "687015622817-leubokddgm7f90ibvjj8najdl1jhs1cd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDK1RzeeYgHjHyy7sU0uuTXBESpRhoF7h8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "687015622817-leubokddgm7f90ibvjj8najdl1jhs1cd.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "687015622817-e8e9bgefbeuc2s7b5faj632dov0angee.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.irvine5k.ranking_challenge"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
