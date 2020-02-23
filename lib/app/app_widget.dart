@@ -14,7 +14,7 @@ class AppWidget extends StatelessWidget {
         primaryColor: Color(0xff012618),
         
       ),
-      initialRoute: '/',
+      initialRoute: '/login',
       onGenerateRoute: Modular.generateRoute,
     );
   }
