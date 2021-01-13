@@ -1,5 +1,5 @@
 # ranking_challenge
-
+ **Flutter SDK Version:** 1.26.0-1.0.pre
 ## O que falta:
  - Cronômetro
  - Animação da lista

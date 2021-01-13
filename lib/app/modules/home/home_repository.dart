@@ -3,7 +3,11 @@ import 'package:ranking_challenge/app/shared/connection/custom_hasura_connect.da
 
 import 'position_model.dart';
 
-class HomeRepository extends Disposable {
+abstract class IHomeRepository extends Disposable {
+  Stream<List<PositionModel>> getData();
+}
+
+class HomeRepository implements IHomeRepository {
   final CustomHasuraConnect _connection = Modular.get();
 
   Stream<List<PositionModel>> getData() {

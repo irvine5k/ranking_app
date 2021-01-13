@@ -44,11 +44,13 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
           padding: const EdgeInsets.all(25),
           child: Column(
             children: <Widget>[
-              TextField(
+              TextFormField(
+                initialValue: controller.user,
                 decoration: InputDecoration(labelText: "Usuário"),
                 onChanged: controller.setUser,
               ),
-              TextField(
+              TextFormField(
+                initialValue: controller.pass,
                 decoration: InputDecoration(labelText: "Senha"),
                 onChanged: controller.setPass,
               ),

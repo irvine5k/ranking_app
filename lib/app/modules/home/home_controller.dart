@@ -13,7 +13,7 @@ class HomeController = _HomeBase with _$HomeController;
 
 abstract class _HomeBase with Store {
   final AppController _appController = Modular.get();
-  final HomeRepository _repository = Modular.get();
+  final IHomeRepository _repository = Modular.get();
 
   _HomeBase() {
     getRanking();

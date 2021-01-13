@@ -14,9 +14,11 @@ description: A new Flutter project.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.6.0 <3.0.0"
+  sdk: ">=2.7.0 <3.0.0"
+  flutter: 1.26.0-1.0.pre
 
 dependencies:
+  animation_helpers: ^1.0.1
   hasura_connect: ^1.1.1
   flutter_mobx_helpers: ^1.0.1
   loading_button: ^0.0.3+1
@@ -26,7 +28,7 @@ dependencies:
   dio: ^3.0.8
   flutter_mobx: ^1.0.1
   mobx: ^1.0.1
-  flutter_modular: ^0.4.5
+  flutter_modular: ^2.0.0+1
   flutter:
     sdk: flutter
 
@@ -38,6 +40,8 @@ dev_dependencies:
   mobx_codegen: ^1.0.1
   build_runner: ^1.7.4
   flutter_test:
+    sdk: flutter
+  integration_test:
     sdk: flutter
 
 
